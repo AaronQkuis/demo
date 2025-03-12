@@ -210,7 +210,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.example.DemoApplication</mainClass>
+                    <mainClass>com.interview.DemoApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
