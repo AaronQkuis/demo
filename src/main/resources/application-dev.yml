@@ -62,7 +62,7 @@ spring:
     #serialization:
     #write-dates-as-timestamps: true
 # 自动配置报告
-debug: true
+debug: false
 
 #mybatis-plus默认配置
 mybatis-plus:
