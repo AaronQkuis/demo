@@ -1,0 +1,132 @@
+spring:
+  aop:
+    proxy-target-class: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://sanhost:3306/demo?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: demo
+    password: "Aa#123456" # 建议用引号包裹特殊字符
+    type: com.alibaba.druid.pool.DruidDataSource # 指定使用 Druid 连接池
+    druid:
+      initial-size: 5 # 初始连接数
+      min-idle: 5 # 最小空闲连接数
+      max-active: 20 # 最大活跃连接数
+      max-wait: 60000 # 获取连接最大等待时间 (毫秒)
+      time-between-eviction-runs-millis: 60000 # 连接池连接检查时间间隔 (毫秒)
+      min-evictable-idle-time-millis: 300000 # 连接最小生存时间 (毫秒)
+      validation-query: SELECT 1 # 连接验证 SQL
+      test-while-idle: true # 空闲连接检查
+      test-on-borrow: false # 获取连接时检查
+      test-on-return: false # 归还连接时检查
+      pool-prepared-statements: true # 启用 PreparedStatement 缓存
+      max-pool-prepared-statement-per-connection-size: 20 # PreparedStatement 缓存大小
+      filters: stat,wall,slf4j # 或者 stat,wall,slf4j
+      connect-timeout: 30000 # 连接超时时间 (毫秒)
+      socket-timeout: 60000 # socket超时时间 (毫秒)
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: druid
+        login-password: Aa#123456
+  mvn:
+    locale: zh_CN
+  messages:
+    basename: i18n.messages
+    cache-duration: 1
+    encoding: utf-8
+  application:
+    name: demo
+  redis:
+    database: 8
+    password:
+    host: sanhost
+    port: 6379
+    jedis:
+      pool:
+        max-active: 100  # 连接池最大连接数
+        max-wait: 3000  # 连接池最大阻塞等待时间
+        max-idle: 50    # 连接池中最大的空闲连接
+        min-idle: 10     # 连接池中最小的空闲连接
+        #time-between-eviction-runs: 60000
+      timeout: 500        # 连接超时时间
+
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      enabled: true
+      max-request-size: 1024MB
+
+  jackson:
+    default-property-inclusion: NON_NULL
+    time-zone: Asia/Shanghai
+    #serialization:
+    #write-dates-as-timestamps: true
+# 自动配置报告
+debug: false
+
+#mybatis-plus默认配置
+mybatis-plus:
+  mapper-locations: classpath*:mybatis/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.interview.pojo.entity  # 注意：对应实体类的路径
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+server:
+  port: 8081
+  undertow:
+    connection-timeout: 2000
+    buffer-size: 102400
+    threads:
+      io: 4
+      worker: 100
+
+swagger:
+  enabled: true
+
+logging:
+  level:
+    root: info
+    #org.springframework.web: debug
+    org.mybatis: trace
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} {%thread} %-5level %logger{50} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} {%thread} %-5level %logger{50} - %msg%n'
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+# minio 对象存储
+oss:
+  account: hdCosmo43
+  endpoint: https://hd-oss.cosmoplat.com
+  accessKey: O2UC6E12SNPT4GM0DWYR
+  secretAccess: EtNw97PNullOe3xAST5g2iHFYE1qkc8uOaMliE6P
+  protocol: http
+  timeout: 10000
+  singner: S3SignerType
+  bucket: cosmo-sns
+
+file:
+  fileType:
+    - .bmp
+    - .jpeg
+    - .png
+    - .tiff
+    - .jpg
+    - .gif
+  maxSize: 1048576 #1MB
+  maxDailySize: 10485760 #10MB
+elastic:
+  clustername: elasticsearch
+  hosts: 10.203.55.53
+  port: 9200
+  pool: 5
+
+# 自定义 starters
+greeting:
+  prefix: 'Hola'
+  suffix: '!!!'
