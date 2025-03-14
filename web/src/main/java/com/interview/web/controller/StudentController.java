@@ -3,15 +3,19 @@ package com.interview.web.controller;
 import cn.hutool.core.convert.Convert;
 import com.interview.starter.service.GreetingService;
 import com.interview.web.i18n.ApiResultI18n;
+import com.interview.web.pojo.entity.ArticleDoc;
 import com.interview.web.pojo.entity.Student;
 import com.interview.web.pojo.param.StudentParam;
+import com.interview.web.repository.ArticleDocRepository;
 import com.interview.web.service.StudentService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +37,9 @@ public class StudentController {
     @Autowired
     private GreetingService greetingService;
 
+    @Resource
+    private ArticleDocRepository articleDocRepository;
+
     @PostMapping("/add")
     private ApiResultI18n add(@RequestBody @Valid StudentParam studentParam) {
         log.info(greetingService.greet("student add"));
@@ -44,6 +51,22 @@ public class StudentController {
     private ApiResultI18n<List<Student>> list() {
         log.info(greetingService.greet("student list"));
         return ApiResultI18n.success(studentService.list());
+    }
+
+    @GetMapping("/test")
+    private ApiResultI18n testEs() {
+        ArticleDoc articleDoc = ArticleDoc.builder()
+                .id(1)//文章id
+                .createTime(new Date())//创建时间
+                .status(1)//状态
+                .title("测试标题")//标题
+                .description("测试简介")//简介
+                .content("测试内容")//内容
+                .authorName("作者名字")//作者名字
+                .type("文章")//类型
+                .build();
+
+        return ApiResultI18n.success(articleDocRepository.save(articleDoc));
     }
 
 }
