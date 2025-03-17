@@ -133,6 +133,8 @@ greeting:
 
 # Actuator 配置 指标监控 排除 es 后续可以自己编写 HealthIndicator
 management:
+  server:
+    port: 9091
   health:
     elasticsearch:
       enabled: false

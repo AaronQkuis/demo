@@ -56,6 +56,8 @@ public class StudentController {
 
     @PostMapping("/add")
     private ApiResultI18n add(@RequestBody @Valid StudentParam studentParam) {
+        // 增加请求计数器
+        requestCounter.increment();
         // 模拟错误计数
         meterRegistry.counter("app.errors.count").increment();
 
