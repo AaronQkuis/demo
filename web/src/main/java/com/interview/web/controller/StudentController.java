@@ -1,6 +1,9 @@
 package com.interview.web.controller;
 
 import cn.hutool.core.convert.Convert;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.interview.starter.service.GreetingService;
 import com.interview.web.i18n.ApiResultI18n;
 import com.interview.web.pojo.entity.ArticleDoc;
@@ -58,9 +61,6 @@ public class StudentController {
     private ApiResultI18n add(@RequestBody @Valid StudentParam studentParam) {
         // 增加请求计数器
         requestCounter.increment();
-        // 模拟错误计数
-        meterRegistry.counter("app.errors.count").increment();
-
         log.info(greetingService.greet("student add"));
         Student student = Convert.convert(Student.class, studentParam);
         return ApiResultI18n.success(studentService.save(student));
@@ -73,19 +73,14 @@ public class StudentController {
         AtomicReference<List<Student>> list = new AtomicReference<>(new ArrayList<>());
         // 记录响应时间 (模拟)
         meterRegistry.timer("app.hello.timer").record(() -> {
-            try {
-                Thread.sleep(random.nextInt(200) + 100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            list.set(studentService.list());
+            list.set(studentService.list(new QueryWrapper<Student>().last("limit 10")));
         });
         log.info(greetingService.greet("student list"));
         return ApiResultI18n.success(list);
     }
 
     @GetMapping("/bye")
-    private ApiResultI18n hello() {
+    private ApiResultI18n bye() {
         // 增加请求计数器
         requestCounter.increment();
         // 记录响应时间 (模拟)

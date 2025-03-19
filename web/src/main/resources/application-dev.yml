@@ -153,3 +153,8 @@ management:
         enabled: true
     tags:
       application: ${spring.application.name}
+      instances: ""
+    web:
+      server:
+        request:
+          metric-name: http.server.requests
